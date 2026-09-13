@@ -96,6 +96,109 @@ f2 = lambda v: f"{v:.2f}"
 f0 = lambda v: f"{v:.0f}"
 
 
+def extras(m: dict) -> dict:
+    """Computed prose. Each sentence that states a direction checks it first."""
+    cfg, h = m["config"], m["headline"]
+    ship = cfg["shipped_arm"]
+    lad = pd.DataFrame(m["ladder"]).set_index("arm")
+    cls = m["classification"]
+    det = lambda a: float(lad.loc[a, "detection_rate"])
+    out = {k: "" for k in ("ci", "reddit", "cheerful", "silence", "transport", "coupling")}
+
+    ci = h["detection_ci"]
+    half = (ci[1] - ci[0]) / 2
+    if ship != "tfidf_lr" and "tfidf_lr" in lad.index:
+        dgap = det(ship) - det("tfidf_lr")
+        agap = cls["in_domain"][ship]["accuracy"] - cls["in_domain"]["tfidf_lr"]["accuracy"]
+        out["ci"] = (f"<p>The bootstrap 95% interval on the shipped detection rate is ±{100 * half:.0f} "
+                     f"points. The fine-tuned transformer and TF-IDF differ by {100 * agap:+.1f} points of "
+                     f"sentence accuracy and {100 * dgap:+.1f} points of detection — "
+                     f"{'inside' if abs(dgap) <= half else 'outside'} that interval.</p>")
+
+    rf, rl = cls["reddit_transport"][ship], cls["reddit_transport"]["lexicon"]
+    out["reddit"] = (
+        f"<p>On Reddit the {ship} scorer's accuracy ({pct1(rf['accuracy'])}) is "
+        f"{'below' if rf['accuracy'] < rl['accuracy'] else 'above'} the hand-written keyword lexicon's "
+        f"({pct1(rl['accuracy'])}), having been {pct1(cls['in_domain'][ship]['accuracy'])} vs "
+        f"{pct1(cls['in_domain']['lexicon']['accuracy'])} on tweets; it "
+        f"{'still ranks valence better' if rf['valence_auc'] > rl['valence_auc'] else 'no longer ranks valence better'}"
+        f" (AUC {rf['valence_auc']:.3f} vs {rl['valence_auc']:.3f}). Only "
+        f"{pct1(m['shortcut']['reddit_containing_feel'])} of Reddit comments contain <em>feel</em>.</p>")
+
+    rules = pd.DataFrame(m["rules"]).set_index("rule")
+    c, p = rules.loc["cusum"], rules.loc["population_rolling"]
+    txt = (f"<p>Who gets caught differs too. Personal CUSUM: {pct(c['detection_cheerful_half'])} of declines "
+           f"among the more cheerful half of people vs {pct(c['detection_gloomy_half'])} among the gloomier "
+           f"half; population threshold: {pct(p['detection_cheerful_half'])} vs "
+           f"{pct(p['detection_gloomy_half'])}.")
+    if c["detection_cheerful_half"] > c["detection_gloomy_half"]:
+        txt += (" Part of the personal rule's tilt is built into this generator: word choice follows mood "
+                "through a logistic link, so a decline that starts from an already-low mood changes the "
+                "text less. That is an assumption of the simulation, not an observation about people.")
+    out["cheerful"] = txt + "</p>"
+
+    sw = pd.DataFrame(m["silence_sweep"])
+    base = sw.iloc[0]
+    indep = sw[sw.mood_dropout == 0.0]
+    parts = "; ".join(f"{r.setting.split(' (')[0]}: {pct(r.detection_rate)} caught, "
+                      f"{pct(r.stable_flag_rate)} of never-declining flagged" for r in sw.iloc[1:].itertuples())
+    s = (f"<p>Holding every mood and every sentence's emotion fixed and changing only writing behaviour — "
+         f"shipped: {pct(base.detection_rate)} caught; {parts}.")
+    if len(indep):
+        silence_cost = float(indep.detection_rate.iloc[0] - base.detection_rate)
+        clf_cost = det("gold_text") - det(ship)
+        s += (f" Silence that follows mood costs {100 * silence_cost:.0f} points of detection; replacing gold "
+              f"labels with the classifier cost {100 * clf_cost:.0f}.")
+    out["silence"] = s + "</p>"
+
+    tv = m.get("transport_valence", {}).get(ship)
+    if tv:
+        t = pd.DataFrame(m["transport"])
+        t = t[t.arm == ship].set_index("rule")
+        dc = t.loc["cusum", "stable_flag_reddit"] - t.loc["cusum", "stable_flag_tweets"]
+        dp = t.loc["population_rolling", "stable_flag_reddit"] - t.loc["population_rolling", "stable_flag_tweets"]
+        s = (f"<p><strong>Why.</strong> A sentence carrying the same emotion moves the {ship} score less on "
+             f"Reddit: the gap between the mean valence of positive- and negative-emotion sentences is "
+             f"{tv['evaluation']['separation']:.2f} on tweets and {tv['transport']['separation']:.2f} on Reddit "
+             f"(gold labels: 2.00 by construction). The population rule's tweet-calibrated cut-point is then "
+             f"rarely reached: it catches {pct1(t.loc['population_rolling', 'detection_reddit'])} and flags "
+             f"{pct1(t.loc['population_rolling', 'stable_flag_reddit'])} of never-declining people. The personal "
+             f"CUSUM re-standardises each person: its false-flag rate moves from "
+             f"{pct1(t.loc['cusum', 'stable_flag_tweets'])} to {pct1(t.loc['cusum', 'stable_flag_reddit'])}, "
+             f"and detection from {pct1(t.loc['cusum', 'detection_tweets'])} to "
+             f"{pct1(t.loc['cusum', 'detection_reddit'])}.")
+        if abs(dc) < abs(dp) and t.loc["cusum", "detection_reddit"] < t.loc["cusum", "detection_tweets"]:
+            s += (" A personal baseline protected the false-flag rate from the register shift; it could not "
+                  "protect sensitivity, because the signal it standardises had shrunk.")
+        out["transport"] = s + "</p>"
+
+    cs = pd.DataFrame(m["coupling_sweep"])
+    lo, hi = cs.gold_detection_rate.min(), cs.gold_detection_rate.max()
+    s = (f"<p>Across within-person correlations from {cs.gold_within_person_r.min():.2f} to "
+         f"{cs.gold_within_person_r.max():.2f}, gold-label detection moves between {pct(lo)} and {pct(hi)}, "
+         f"against {pct(det('latent_written'))} for true mood on the same written days.")
+    if hi - lo < 0.10 and det("latent_written") - hi > 0.10:
+        s += (" Past a modest coupling, how clearly words carry mood stops mattering; when people write, and "
+              "how much a few weeks of text can distinguish a decline from a bad week, limit the tracker.")
+    out["coupling"] = s + "</p>"
+    return out
+
+
+def baseline_para(h: dict) -> str:
+    be = h.get("baseline_error")
+    if not be or be.get("mean_true_gap_flagged") is None:
+        return ""
+    return (f"<p><strong>A personal baseline is itself an estimate.</strong> It rests on a median of "
+            f"{be['median_baseline_entries']:.0f} entries. Among people who never declined, how much "
+            f"happier their <em>true</em> mood was during the baseline weeks than afterwards — something "
+            f"the tracker never sees — predicts being flagged with AUC "
+            f"<strong>{be['auc_true_mood_gap_for_stable_flag']:.2f}</strong> (mean gap "
+            f"{be['mean_true_gap_flagged']:+.2f} for the flagged vs {be['mean_true_gap_not_flagged']:+.2f} "
+            f"for the rest, latent units); having fewer baseline entries predicts it with AUC "
+            f"{be['auc_fewer_baseline_entries_for_stable_flag']:.2f}. Comparing people with themselves "
+            f"removes who they are, and adds how their first five weeks happened to go.</p>")
+
+
 def build() -> Path:
     m = json.loads((ART / "metrics.json").read_text(encoding="utf-8"))
     cfg, h, corp = m["config"], m["headline"], m["corpora"]
@@ -183,6 +286,7 @@ def build() -> Path:
 
     trv, pr, nc, bw = h["travel"], m["pool_replicates"], m["negative_controls"], m.get("bad_weeks", {})
     kk = m["k_selection"]
+    x = extras(m)
 
     page = f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
@@ -274,6 +378,9 @@ def build() -> Path:
   quantile of per-person maxima that flags {pct(cfg['budget'])} of never-declining people in the
   <em>calibration</em> cohort, applied unchanged to evaluation. A flag counts as a detection only between
   onset and six weeks after the decline completes.</p>
+  {img('person', 'One synthetic journaler. Top: hidden true mood (purple = sustained decline, yellow = bad '
+                 'weeks). Middle: entry valence from the text, only on days they wrote. Bottom: the CUSUM, '
+                 'the fitted threshold (dashed) and the flag (red).')}
 </section>
 
 <section>
@@ -299,6 +406,7 @@ def build() -> Path:
   (best: {best_det}, {pct(dets[best_det])}). Averaging several sentences over several weeks forgives a
   great deal of per-sentence error, because the tracker only needs the <em>sign</em> of the mood mass, not
   the emotion.</p>
+  {x['ci']}
   {img('classifier', 'Sentence-level accuracy and valence AUC, in-domain, with keywords masked, and on Reddit.')}
   {table(ctab, {c: pct1 for c in ctab.columns[1:4]} | {c: f3 for c in ctab.columns[4:]}, num_cols=ctab.columns[1:])}
   <p><strong>The keyword shortcut.</strong> dair-ai labels come from emotion hashtags, and
@@ -306,6 +414,7 @@ def build() -> Path:
   100 training unigrams most associated with the label (touching {pct(m['shortcut']['share_sentences_touched'])}
   of test sentences) drops accuracy by {", ".join(f"{a} {f0(100 * v)} pts" for a, v in mask_drop.items())}.
   On Reddit comments the drop is {", ".join(f"{a} {f0(100 * v)} pts" for a, v in red_drop.items())}.</p>
+  {x['reddit']}
 </section>
 
 <section>
@@ -320,6 +429,8 @@ def build() -> Path:
   never-declining people the population rule flags, {pct(pop['stable_flags_after_bad_week'])} were within
   a week of a bad week; for the CUSUM, {pct(cus['stable_flags_after_bad_week'])} (base rate of such days:
   {pct(cus['bad_week_base_rate'])}).</p>
+  {x['cheerful']}
+  {baseline_para(h)}
 </section>
 
 <section>
@@ -329,6 +440,7 @@ def build() -> Path:
   vs {pct(si['written_share_stable_monitoring'])} for people who never declined. On the days they do write
   their mood averages {si['mean_dev_written_days_after_full_decline']:+.2f} below normal; across all days it
   is {si['mean_dev_all_days_after_full_decline']:+.2f} — silence hides the worst days.</p>
+  {x['silence']}
   {table(swtab, {"days written once declined": pct, "declines caught": pct, "median days to flag": f0,
                  "never-declining flagged": pct, "entry count → decline AUC": f3}, num_cols=swtab.columns[1:])}
   {table(adh, {"declines caught": pct, "median days to flag": f0}, num_cols=adh.columns[1:])}
@@ -341,6 +453,7 @@ def build() -> Path:
   sentence slot. Thresholds stay as fitted on tweets. For the shipped scorer, the share of never-declining
   people flagged moves by <strong>{100 * shift_c:+.0f} points</strong> under the personal CUSUM and by
   <strong>{100 * shift_p:+.0f} points</strong> under the population threshold.</p>
+  {x['transport']}
   {table(ttab, {c: pct for c in ttab.columns[2:6]} | {c: f3 for c in ttab.columns[6:]}, num_cols=ttab.columns[2:])}
 </section>
 
@@ -352,6 +465,7 @@ def build() -> Path:
   <p>The shipped setting (coupling 1.0) gives a within-person correlation of
   {f2(h['within_person_r_gold'])} between an entry's gold-label score and true mood. That is an assumption,
   and a generous one; it is why this table exists.</p>
+  {x['coupling']}
 </section>
 
 <section>

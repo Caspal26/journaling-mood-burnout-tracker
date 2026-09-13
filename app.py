@@ -243,6 +243,14 @@ with tabs[3]:
                  width="stretch", hide_index=True)
     st.markdown(f"Within-person correlation of the daily entry score with true mood: **gold labels "
                 f"{H['within_person_r_gold']:.2f}**, **shipped classifier {H['within_person_r_shipped']:.2f}**.")
+    be = H.get("baseline_error")
+    if be and be.get("mean_true_gap_flagged") is not None:
+        st.markdown(f"**The baseline is an estimate too.** Among never-declining people, how much happier "
+                    f"their hidden true mood was in the first {CFG['baseline_days']} days than afterwards "
+                    f"predicts being flagged with AUC **{be['auc_true_mood_gap_for_stable_flag']:.2f}**; "
+                    f"fewer baseline entries predicts it with AUC "
+                    f"{be['auc_fewer_baseline_entries_for_stable_flag']:.2f} (median "
+                    f"{be['median_baseline_entries']:.0f} baseline entries).")
     cs = pd.DataFrame(m["coupling_sweep"])
     st.subheader("How much must mood leak into word choice?")
     st.dataframe(df_fmt(cs, pct_cols=[c for c in cs if c.endswith("rate")],

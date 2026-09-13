@@ -1,0 +1,2131 @@
+{
+  "corpora": {
+    "train_n": 16000,
+    "validation_n": 2000,
+    "test_n": 2000,
+    "calibration_pool_n": 1995,
+    "calibration_dropped_as_train_duplicates": 5,
+    "evaluation_pool_n": 1989,
+    "evaluation_dropped_as_train_duplicates": 11,
+    "transport_pool_n": 5803,
+    "transport_dropped_as_train_duplicates": 0,
+    "train_class_share": {
+      "sadness": 0.291625,
+      "joy": 0.335125,
+      "love": 0.0815,
+      "anger": 0.134937,
+      "fear": 0.121063,
+      "surprise": 0.03575
+    },
+    "evaluation_pool_class_n": {
+      "sadness": 579,
+      "joy": 690,
+      "love": 157,
+      "anger": 274,
+      "fear": 224,
+      "surprise": 65
+    },
+    "transport_pool_class_n": {
+      "sadness": 500,
+      "joy": 2648,
+      "love": 623,
+      "anger": 1005,
+      "fear": 143,
+      "surprise": 884
+    },
+    "transport_source_labels": {
+      "admiration": 674,
+      "gratitude": 521,
+      "approval": 494,
+      "disapproval": 407,
+      "amusement": 394,
+      "annoyance": 358,
+      "curiosity": 340,
+      "love": 333,
+      "anger": 240,
+      "optimism": 226,
+      "joy": 199,
+      "confusion": 199,
+      "sadness": 186,
+      "caring": 182,
+      "surprise": 182,
+      "disappointment": 179,
+      "realization": 163,
+      "fear": 123,
+      "excitement": 109,
+      "desire": 108,
+      "remorse": 84,
+      "embarrassment": 43,
+      "nervousness": 20,
+      "pride": 16,
+      "relief": 15,
+      "grief": 8
+    }
+  },
+  "classifier_selection": {
+    "tfidf_cv": [
+      {
+        "C": 3.0,
+        "cv_macro_f1": 0.766937
+      },
+      {
+        "C": 10.0,
+        "cv_macro_f1": 0.803054
+      },
+      {
+        "C": 30.0,
+        "cv_macro_f1": 0.813526
+      },
+      {
+        "C": 100.0,
+        "cv_macro_f1": 0.819604
+      }
+    ],
+    "embed_cv": [
+      {
+        "C": 1.0,
+        "cv_macro_f1": 0.601276
+      },
+      {
+        "C": 10.0,
+        "cv_macro_f1": 0.626303
+      }
+    ],
+    "finetune": {
+      "epochs": 2,
+      "lr": 5e-05,
+      "batch": 32,
+      "max_len": 64,
+      "steps": 1000,
+      "seconds": 983.9,
+      "loss_history": [
+        {
+          "step": 100,
+          "loss": 1.373781
+        },
+        {
+          "step": 200,
+          "loss": 0.623937
+        },
+        {
+          "step": 300,
+          "loss": 0.376113
+        },
+        {
+          "step": 400,
+          "loss": 0.290069
+        },
+        {
+          "step": 500,
+          "loss": 0.236653
+        },
+        {
+          "step": 600,
+          "loss": 0.182581
+        },
+        {
+          "step": 700,
+          "loss": 0.168788
+        },
+        {
+          "step": 800,
+          "loss": 0.164228
+        },
+        {
+          "step": 900,
+          "loss": 0.156069
+        },
+        {
+          "step": 1000,
+          "loss": 0.153574
+        }
+      ],
+      "reused": true
+    }
+  },
+  "classification": {
+    "in_domain": {
+      "lexicon": {
+        "n": 1989,
+        "accuracy": 0.528406,
+        "macro_f1": 0.490478,
+        "valence_auc": 0.715965,
+        "valence_sign_acc": 0.656445,
+        "recall": {
+          "sadness": 0.265976,
+          "joy": 0.928986,
+          "love": 0.375796,
+          "anger": 0.310219,
+          "fear": 0.321429,
+          "surprise": 0.615385
+        },
+        "confusion": [
+          [
+            154,
+            391,
+            8,
+            9,
+            12,
+            5
+          ],
+          [
+            5,
+            641,
+            31,
+            4,
+            4,
+            5
+          ],
+          [
+            10,
+            83,
+            59,
+            3,
+            2,
+            0
+          ],
+          [
+            13,
+            159,
+            9,
+            85,
+            7,
+            1
+          ],
+          [
+            10,
+            119,
+            2,
+            4,
+            72,
+            17
+          ],
+          [
+            1,
+            18,
+            1,
+            0,
+            5,
+            40
+          ]
+        ]
+      },
+      "tfidf_lr": {
+        "n": 1989,
+        "accuracy": 0.872298,
+        "macro_f1": 0.808116,
+        "valence_auc": 0.995292,
+        "valence_sign_acc": 0.969335,
+        "recall": {
+          "sadness": 0.93437,
+          "joy": 0.926087,
+          "love": 0.675159,
+          "anger": 0.854015,
+          "fear": 0.794643,
+          "surprise": 0.569231
+        },
+        "confusion": [
+          [
+            541,
+            13,
+            4,
+            16,
+            5,
+            0
+          ],
+          [
+            9,
+            639,
+            30,
+            4,
+            2,
+            6
+          ],
+          [
+            5,
+            42,
+            106,
+            3,
+            0,
+            1
+          ],
+          [
+            20,
+            12,
+            1,
+            234,
+            7,
+            0
+          ],
+          [
+            19,
+            8,
+            1,
+            7,
+            178,
+            11
+          ],
+          [
+            3,
+            12,
+            0,
+            2,
+            11,
+            37
+          ]
+        ]
+      },
+      "embed_lr": {
+        "n": 1989,
+        "accuracy": 0.686777,
+        "macro_f1": 0.605303,
+        "valence_auc": 0.931669,
+        "valence_sign_acc": 0.862266,
+        "recall": {
+          "sadness": 0.749568,
+          "joy": 0.788406,
+          "love": 0.407643,
+          "anger": 0.583942,
+          "fear": 0.620536,
+          "surprise": 0.384615
+        },
+        "confusion": [
+          [
+            434,
+            62,
+            15,
+            34,
+            28,
+            6
+          ],
+          [
+            48,
+            544,
+            46,
+            23,
+            23,
+            6
+          ],
+          [
+            15,
+            65,
+            64,
+            8,
+            5,
+            0
+          ],
+          [
+            61,
+            34,
+            4,
+            160,
+            15,
+            0
+          ],
+          [
+            34,
+            25,
+            2,
+            16,
+            139,
+            8
+          ],
+          [
+            6,
+            17,
+            2,
+            4,
+            11,
+            25
+          ]
+        ]
+      },
+      "minilm_ft": {
+        "n": 1989,
+        "accuracy": 0.928105,
+        "macro_f1": 0.882728,
+        "valence_auc": 0.99896,
+        "valence_sign_acc": 0.991164,
+        "recall": {
+          "sadness": 0.967185,
+          "joy": 0.946377,
+          "love": 0.859873,
+          "anger": 0.930657,
+          "fear": 0.892857,
+          "surprise": 0.661538
+        },
+        "confusion": [
+          [
+            560,
+            5,
+            0,
+            10,
+            4,
+            0
+          ],
+          [
+            2,
+            653,
+            31,
+            3,
+            1,
+            0
+          ],
+          [
+            0,
+            20,
+            135,
+            2,
+            0,
+            0
+          ],
+          [
+            12,
+            4,
+            0,
+            255,
+            3,
+            0
+          ],
+          [
+            5,
+            0,
+            0,
+            8,
+            200,
+            11
+          ],
+          [
+            4,
+            7,
+            0,
+            0,
+            11,
+            43
+          ]
+        ]
+      },
+      "random": {
+        "n": 1989,
+        "accuracy": 0.162393,
+        "macro_f1": 0.144189,
+        "valence_auc": 0.490178,
+        "valence_sign_acc": 0.517152,
+        "recall": {
+          "sadness": 0.184801,
+          "joy": 0.150725,
+          "love": 0.127389,
+          "anger": 0.171533,
+          "fear": 0.120536,
+          "surprise": 0.276923
+        },
+        "confusion": [
+          [
+            107,
+            109,
+            105,
+            79,
+            87,
+            92
+          ],
+          [
+            112,
+            104,
+            135,
+            114,
+            108,
+            117
+          ],
+          [
+            31,
+            28,
+            20,
+            29,
+            29,
+            20
+          ],
+          [
+            48,
+            56,
+            43,
+            47,
+            53,
+            27
+          ],
+          [
+            45,
+            41,
+            37,
+            40,
+            27,
+            34
+          ],
+          [
+            8,
+            11,
+            10,
+            8,
+            10,
+            18
+          ]
+        ]
+      }
+    },
+    "keywords_masked": {
+      "lexicon": {
+        "n": 1989,
+        "accuracy": 0.429864,
+        "macro_f1": 0.202127,
+        "valence_auc": 0.635461,
+        "valence_sign_acc": 0.617464,
+        "recall": {
+          "sadness": 0.267703,
+          "joy": 0.969565,
+          "love": 0.076433,
+          "anger": 0.054745,
+          "fear": 0.017857,
+          "surprise": 0.0
+        },
+        "confusion": [
+          [
+            155,
+            407,
+            6,
+            4,
+            7,
+            0
+          ],
+          [
+            5,
+            669,
+            11,
+            3,
+            2,
+            0
+          ],
+          [
+            10,
+            133,
+            12,
+            1,
+            1,
+            0
+          ],
+          [
+            14,
+            230,
+            8,
+            15,
+            7,
+            0
+          ],
+          [
+            11,
+            202,
+            3,
+            3,
+            4,
+            1
+          ],
+          [
+            1,
+            63,
+            1,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "tfidf_lr": {
+        "n": 1989,
+        "accuracy": 0.665158,
+        "macro_f1": 0.390144,
+        "valence_auc": 0.950329,
+        "valence_sign_acc": 0.867983,
+        "recall": {
+          "sadness": 0.951641,
+          "joy": 0.956522,
+          "love": 0.10828,
+          "anger": 0.189781,
+          "fear": 0.191964,
+          "surprise": 0.0
+        },
+        "confusion": [
+          [
+            551,
+            14,
+            0,
+            11,
+            3,
+            0
+          ],
+          [
+            18,
+            660,
+            4,
+            5,
+            3,
+            0
+          ],
+          [
+            33,
+            96,
+            17,
+            5,
+            6,
+            0
+          ],
+          [
+            98,
+            104,
+            6,
+            52,
+            14,
+            0
+          ],
+          [
+            83,
+            86,
+            1,
+            11,
+            43,
+            0
+          ],
+          [
+            23,
+            35,
+            1,
+            5,
+            1,
+            0
+          ]
+        ]
+      },
+      "embed_lr": {
+        "n": 1989,
+        "accuracy": 0.555556,
+        "macro_f1": 0.338457,
+        "valence_auc": 0.856995,
+        "valence_sign_acc": 0.77027,
+        "recall": {
+          "sadness": 0.768566,
+          "joy": 0.804348,
+          "love": 0.152866,
+          "anger": 0.160584,
+          "fear": 0.160714,
+          "surprise": 0.015385
+        },
+        "confusion": [
+          [
+            445,
+            64,
+            13,
+            28,
+            24,
+            5
+          ],
+          [
+            57,
+            555,
+            29,
+            22,
+            23,
+            4
+          ],
+          [
+            42,
+            80,
+            24,
+            5,
+            5,
+            1
+          ],
+          [
+            101,
+            102,
+            12,
+            44,
+            13,
+            2
+          ],
+          [
+            75,
+            102,
+            3,
+            7,
+            36,
+            1
+          ],
+          [
+            17,
+            39,
+            3,
+            1,
+            4,
+            1
+          ]
+        ]
+      },
+      "minilm_ft": {
+        "n": 1989,
+        "accuracy": 0.683258,
+        "macro_f1": 0.418884,
+        "valence_auc": 0.943507,
+        "valence_sign_acc": 0.842516,
+        "recall": {
+          "sadness": 0.968912,
+          "joy": 0.971014,
+          "love": 0.165605,
+          "anger": 0.208029,
+          "fear": 0.200893,
+          "surprise": 0.0
+        },
+        "confusion": [
+          [
+            561,
+            5,
+            0,
+            9,
+            4,
+            0
+          ],
+          [
+            8,
+            670,
+            3,
+            6,
+            2,
+            1
+          ],
+          [
+            30,
+            88,
+            26,
+            7,
+            5,
+            1
+          ],
+          [
+            67,
+            136,
+            1,
+            57,
+            12,
+            1
+          ],
+          [
+            60,
+            109,
+            1,
+            8,
+            45,
+            1
+          ],
+          [
+            11,
+            46,
+            1,
+            3,
+            4,
+            0
+          ]
+        ]
+      },
+      "random": {
+        "n": 1989,
+        "accuracy": 0.163901,
+        "macro_f1": 0.142981,
+        "valence_auc": 0.512743,
+        "valence_sign_acc": 0.536383,
+        "recall": {
+          "sadness": 0.165803,
+          "joy": 0.165217,
+          "love": 0.159236,
+          "anger": 0.182482,
+          "fear": 0.151786,
+          "surprise": 0.107692
+        },
+        "confusion": [
+          [
+            96,
+            83,
+            100,
+            117,
+            93,
+            90
+          ],
+          [
+            113,
+            114,
+            117,
+            127,
+            111,
+            108
+          ],
+          [
+            20,
+            37,
+            25,
+            23,
+            23,
+            29
+          ],
+          [
+            35,
+            39,
+            43,
+            50,
+            48,
+            59
+          ],
+          [
+            43,
+            39,
+            41,
+            34,
+            34,
+            33
+          ],
+          [
+            9,
+            14,
+            14,
+            7,
+            14,
+            7
+          ]
+        ]
+      }
+    },
+    "reddit_transport": {
+      "lexicon": {
+        "n": 5803,
+        "accuracy": 0.519387,
+        "macro_f1": 0.354156,
+        "valence_auc": 0.65511,
+        "valence_sign_acc": 0.503354,
+        "recall": {
+          "sadness": 0.144,
+          "joy": 0.945242,
+          "love": 0.41252,
+          "anger": 0.067662,
+          "fear": 0.335664,
+          "surprise": 0.074661
+        },
+        "confusion": [
+          [
+            72,
+            407,
+            7,
+            3,
+            4,
+            7
+          ],
+          [
+            22,
+            2503,
+            48,
+            17,
+            6,
+            52
+          ],
+          [
+            14,
+            340,
+            257,
+            7,
+            3,
+            2
+          ],
+          [
+            10,
+            898,
+            9,
+            68,
+            2,
+            18
+          ],
+          [
+            3,
+            90,
+            0,
+            1,
+            48,
+            1
+          ],
+          [
+            15,
+            782,
+            8,
+            8,
+            5,
+            66
+          ]
+        ]
+      },
+      "tfidf_lr": {
+        "n": 5803,
+        "accuracy": 0.412373,
+        "macro_f1": 0.267112,
+        "valence_auc": 0.732026,
+        "valence_sign_acc": 0.658467,
+        "recall": {
+          "sadness": 0.602,
+          "joy": 0.66994,
+          "love": 0.109149,
+          "anger": 0.155224,
+          "fear": 0.272727,
+          "surprise": 0.062217
+        },
+        "confusion": [
+          [
+            301,
+            139,
+            10,
+            34,
+            13,
+            3
+          ],
+          [
+            544,
+            1774,
+            79,
+            143,
+            48,
+            60
+          ],
+          [
+            166,
+            337,
+            68,
+            36,
+            14,
+            2
+          ],
+          [
+            378,
+            399,
+            30,
+            156,
+            33,
+            9
+          ],
+          [
+            55,
+            41,
+            0,
+            7,
+            39,
+            1
+          ],
+          [
+            297,
+            392,
+            28,
+            59,
+            53,
+            55
+          ]
+        ]
+      },
+      "embed_lr": {
+        "n": 5803,
+        "accuracy": 0.420817,
+        "macro_f1": 0.295236,
+        "valence_auc": 0.783018,
+        "valence_sign_acc": 0.699532,
+        "recall": {
+          "sadness": 0.396,
+          "joy": 0.634441,
+          "love": 0.162119,
+          "anger": 0.328358,
+          "fear": 0.552448,
+          "surprise": 0.061086
+        },
+        "confusion": [
+          [
+            198,
+            127,
+            17,
+            92,
+            54,
+            12
+          ],
+          [
+            242,
+            1680,
+            151,
+            292,
+            159,
+            124
+          ],
+          [
+            83,
+            321,
+            101,
+            55,
+            55,
+            8
+          ],
+          [
+            221,
+            311,
+            26,
+            330,
+            88,
+            29
+          ],
+          [
+            26,
+            13,
+            2,
+            20,
+            79,
+            3
+          ],
+          [
+            153,
+            405,
+            22,
+            143,
+            107,
+            54
+          ]
+        ]
+      },
+      "minilm_ft": {
+        "n": 5803,
+        "accuracy": 0.507151,
+        "macro_f1": 0.355805,
+        "valence_auc": 0.80458,
+        "valence_sign_acc": 0.755235,
+        "recall": {
+          "sadness": 0.476,
+          "joy": 0.777568,
+          "love": 0.064205,
+          "anger": 0.449751,
+          "fear": 0.552448,
+          "surprise": 0.084842
+        },
+        "confusion": [
+          [
+            238,
+            134,
+            7,
+            95,
+            18,
+            8
+          ],
+          [
+            119,
+            2059,
+            41,
+            312,
+            39,
+            78
+          ],
+          [
+            58,
+            430,
+            40,
+            75,
+            18,
+            2
+          ],
+          [
+            152,
+            340,
+            11,
+            452,
+            33,
+            17
+          ],
+          [
+            28,
+            19,
+            0,
+            16,
+            79,
+            1
+          ],
+          [
+            80,
+            438,
+            9,
+            197,
+            85,
+            75
+          ]
+        ]
+      },
+      "random": {
+        "n": 5803,
+        "accuracy": 0.167327,
+        "macro_f1": 0.138989,
+        "valence_auc": 0.505207,
+        "valence_sign_acc": 0.452328,
+        "recall": {
+          "sadness": 0.106,
+          "joy": 0.182779,
+          "love": 0.166934,
+          "anger": 0.173134,
+          "fear": 0.195804,
+          "surprise": 0.144796
+        },
+        "confusion": [
+          [
+            53,
+            85,
+            92,
+            97,
+            83,
+            90
+          ],
+          [
+            414,
+            484,
+            442,
+            441,
+            426,
+            441
+          ],
+          [
+            94,
+            113,
+            104,
+            101,
+            97,
+            114
+          ],
+          [
+            168,
+            180,
+            180,
+            174,
+            141,
+            162
+          ],
+          [
+            25,
+            23,
+            25,
+            16,
+            28,
+            26
+          ],
+          [
+            169,
+            173,
+            133,
+            134,
+            147,
+            128
+          ]
+        ]
+      }
+    }
+  },
+  "shortcut": {
+    "masked_tokens": [
+      "amazed",
+      "impressed",
+      "curious",
+      "surprised",
+      "shocked",
+      "funny",
+      "dazed",
+      "weird",
+      "overwhelmed",
+      "strange",
+      "sympathetic",
+      "caring",
+      "longing",
+      "loving",
+      "nostalgic",
+      "stunned",
+      "terrified",
+      "horny",
+      "loyal",
+      "tender",
+      "supportive",
+      "naughty",
+      "shaken",
+      "fond",
+      "gentle",
+      "vulnerable",
+      "apprehensive",
+      "irritable",
+      "reluctant",
+      "lovely"
+    ],
+    "n_masked_tokens": 100,
+    "share_sentences_touched": 0.370035,
+    "lexicon_coverage_tweets": 0.397687,
+    "lexicon_coverage_reddit": 0.25573,
+    "sentences_containing_feel": 0.660131,
+    "reddit_containing_feel": 0.0193
+  },
+  "config": {
+    "n_people": 300,
+    "days": 180,
+    "baseline_days": 35,
+    "drift_frac": 0.4,
+    "onset_min": 60,
+    "onset_max": 130,
+    "ramp_min": 14,
+    "ramp_max": 42,
+    "depth_min": 0.6,
+    "depth_max": 1.4,
+    "baseline_sd": 0.6,
+    "ar_phi": 0.4,
+    "ar_sd": 0.64,
+    "dip_rate": 1.5,
+    "dip_len_min": 4,
+    "dip_len_max": 10,
+    "dip_depth_min": 0.6,
+    "dip_depth_max": 1.4,
+    "text_coupling": 1.0,
+    "adherence_mean": 0.6,
+    "adherence_conc": 6.0,
+    "engagement_halflife": 240.0,
+    "mood_dropout": 0.8,
+    "extra_sentences": 3.0,
+    "expressiveness_sd": 0.25,
+    "seed": 17,
+    "shipped_arm": "minilm_ft",
+    "budget": 0.1,
+    "real_prevalence": 0.1,
+    "grace_days": 42,
+    "monitored_days": 145,
+    "quick": false
+  },
+  "cohorts": {
+    "calibration": {
+      "n_people": 300,
+      "n_drift": 121,
+      "drift_share": 0.403333,
+      "entries": 27974,
+      "sentences": 112154,
+      "days_written_share": 0.518037,
+      "sentences_per_entry": 4.009223,
+      "entries_per_person_median": 90.5,
+      "bad_weeks_per_person": 1.413333,
+      "negative_share_baseline": 0.499501,
+      "negative_share_after_full_decline": 0.753069,
+      "written_share_stable": 0.525667
+    },
+    "evaluation": {
+      "n_people": 300,
+      "n_drift": 125,
+      "drift_share": 0.416667,
+      "entries": 27485,
+      "sentences": 109952,
+      "days_written_share": 0.508981,
+      "sentences_per_entry": 4.000437,
+      "entries_per_person_median": 88.5,
+      "bad_weeks_per_person": 1.55,
+      "negative_share_baseline": 0.494257,
+      "negative_share_after_full_decline": 0.740483,
+      "written_share_stable": 0.544921
+    }
+  },
+  "k_selection": {
+    "rows": [
+      {
+        "k": 0.25,
+        "cal_detection_rate": 0.272727,
+        "cal_median_latency": 41.0
+      },
+      {
+        "k": 0.5,
+        "cal_detection_rate": 0.22314,
+        "cal_median_latency": 42.0
+      },
+      {
+        "k": 1.0,
+        "cal_detection_rate": 0.198347,
+        "cal_median_latency": 41.0
+      }
+    ],
+    "chosen": 0.25
+  },
+  "ladder": [
+    {
+      "arm": "latent_all",
+      "label": "true mood, every day (no text, no gaps)",
+      "sentence_accuracy": null,
+      "sentence_valence_auc": null,
+      "n_drift": 125,
+      "n_stable": 175,
+      "n_detected": 97,
+      "detection_rate": 0.776,
+      "n_stable_flagged": 15,
+      "stable_flag_rate": 0.085714,
+      "early_flag_rate": 0.016,
+      "late_flag_rate": 0.04,
+      "median_latency": 38.0,
+      "latency_p25": 29.0,
+      "latency_p75": 48.0,
+      "in_study_precision": 0.815126,
+      "threshold": 38.265044,
+      "cal_detection_rate": 0.793388,
+      "cal_stable_flag_rate": 0.094972
+    },
+    {
+      "arm": "latent_written",
+      "label": "true mood, only on days they wrote",
+      "sentence_accuracy": null,
+      "sentence_valence_auc": null,
+      "n_drift": 125,
+      "n_stable": 175,
+      "n_detected": 57,
+      "detection_rate": 0.456,
+      "n_stable_flagged": 13,
+      "stable_flag_rate": 0.074286,
+      "early_flag_rate": 0.008,
+      "late_flag_rate": 0.096,
+      "median_latency": 40.0,
+      "latency_p25": 26.0,
+      "latency_p75": 54.0,
+      "in_study_precision": 0.686747,
+      "threshold": 21.149548,
+      "cal_detection_rate": 0.528926,
+      "cal_stable_flag_rate": 0.094972
+    },
+    {
+      "arm": "gold_text",
+      "label": "gold emotion labels of the sentences written",
+      "sentence_accuracy": null,
+      "sentence_valence_auc": null,
+      "n_drift": 125,
+      "n_stable": 175,
+      "n_detected": 31,
+      "detection_rate": 0.248,
+      "n_stable_flagged": 16,
+      "stable_flag_rate": 0.091429,
+      "early_flag_rate": 0.008,
+      "late_flag_rate": 0.08,
+      "median_latency": 42.0,
+      "latency_p25": 24.5,
+      "latency_p75": 55.5,
+      "in_study_precision": 0.534483,
+      "threshold": 16.644132,
+      "cal_detection_rate": 0.272727,
+      "cal_stable_flag_rate": 0.094972
+    },
+    {
+      "arm": "minilm_ft",
+      "label": "fine-tuned MiniLM (shipped)",
+      "sentence_accuracy": 0.928105,
+      "sentence_valence_auc": 0.99896,
+      "n_drift": 125,
+      "n_stable": 175,
+      "n_detected": 28,
+      "detection_rate": 0.224,
+      "n_stable_flagged": 14,
+      "stable_flag_rate": 0.08,
+      "early_flag_rate": 0.008,
+      "late_flag_rate": 0.096,
+      "median_latency": 40.0,
+      "latency_p25": 27.75,
+      "latency_p75": 54.5,
+      "in_study_precision": 0.509091,
+      "threshold": 16.785893,
+      "cal_detection_rate": 0.272727,
+      "cal_stable_flag_rate": 0.094972
+    },
+    {
+      "arm": "embed_lr",
+      "label": "frozen MiniLM embeddings + LR",
+      "sentence_accuracy": 0.686777,
+      "sentence_valence_auc": 0.931669,
+      "n_drift": 125,
+      "n_stable": 175,
+      "n_detected": 23,
+      "detection_rate": 0.184,
+      "n_stable_flagged": 8,
+      "stable_flag_rate": 0.045714,
+      "early_flag_rate": 0.024,
+      "late_flag_rate": 0.096,
+      "median_latency": 41.0,
+      "latency_p25": 29.5,
+      "latency_p75": 58.0,
+      "in_study_precision": 0.5,
+      "threshold": 16.528415,
+      "cal_detection_rate": 0.198347,
+      "cal_stable_flag_rate": 0.094972
+    },
+    {
+      "arm": "tfidf_lr",
+      "label": "TF-IDF + LR",
+      "sentence_accuracy": 0.872298,
+      "sentence_valence_auc": 0.995292,
+      "n_drift": 125,
+      "n_stable": 175,
+      "n_detected": 25,
+      "detection_rate": 0.2,
+      "n_stable_flagged": 16,
+      "stable_flag_rate": 0.091429,
+      "early_flag_rate": 0.016,
+      "late_flag_rate": 0.128,
+      "median_latency": 41.0,
+      "latency_p25": 26.0,
+      "latency_p75": 49.0,
+      "in_study_precision": 0.423729,
+      "threshold": 17.425919,
+      "cal_detection_rate": 0.239669,
+      "cal_stable_flag_rate": 0.094972
+    },
+    {
+      "arm": "lexicon",
+      "label": "keyword lexicon (no learning)",
+      "sentence_accuracy": 0.528406,
+      "sentence_valence_auc": 0.715965,
+      "n_drift": 125,
+      "n_stable": 175,
+      "n_detected": 15,
+      "detection_rate": 0.12,
+      "n_stable_flagged": 19,
+      "stable_flag_rate": 0.108571,
+      "early_flag_rate": 0.048,
+      "late_flag_rate": 0.04,
+      "median_latency": 40.0,
+      "latency_p25": 31.5,
+      "latency_p75": 60.5,
+      "in_study_precision": 0.333333,
+      "threshold": 13.604113,
+      "cal_detection_rate": 0.132231,
+      "cal_stable_flag_rate": 0.094972
+    },
+    {
+      "arm": "random",
+      "label": "random scorer (negative control)",
+      "sentence_accuracy": 0.162393,
+      "sentence_valence_auc": 0.490178,
+      "n_drift": 125,
+      "n_stable": 175,
+      "n_detected": 6,
+      "detection_rate": 0.048,
+      "n_stable_flagged": 24,
+      "stable_flag_rate": 0.137143,
+      "early_flag_rate": 0.072,
+      "late_flag_rate": 0.0,
+      "median_latency": 27.0,
+      "latency_p25": 8.0,
+      "latency_p75": 52.75,
+      "in_study_precision": 0.153846,
+      "threshold": 10.86188,
+      "cal_detection_rate": 0.049587,
+      "cal_stable_flag_rate": 0.094972
+    }
+  ],
+  "headline": {
+    "n_drift": 125,
+    "n_stable": 175,
+    "n_detected": 28,
+    "detection_rate": 0.224,
+    "n_stable_flagged": 14,
+    "stable_flag_rate": 0.08,
+    "early_flag_rate": 0.008,
+    "late_flag_rate": 0.096,
+    "median_latency": 40.0,
+    "latency_p25": 27.75,
+    "latency_p75": 54.5,
+    "in_study_precision": 0.509091,
+    "threshold": 16.785893,
+    "cal_detection_rate": 0.272727,
+    "cal_stable_flag_rate": 0.094972,
+    "detection_ci": [
+      0.154382,
+      0.301739
+    ],
+    "stable_flag_ci": [
+      0.043461,
+      0.122699
+    ],
+    "ppv_at_real_prevalence": 0.237288,
+    "baseline_error": {
+      "auc_true_mood_gap_for_stable_flag": 0.794144,
+      "auc_fewer_baseline_entries_for_stable_flag": 0.435448,
+      "mean_true_gap_flagged": 0.219372,
+      "mean_true_gap_not_flagged": -0.005354,
+      "median_baseline_entries": 20.0
+    },
+    "within_person_r_shipped": 0.630857,
+    "within_person_r_gold": 0.639094,
+    "travel": {
+      "cal16_to_eval17": {
+        "stable_flag_rate": 0.08,
+        "detection_rate": 0.224
+      },
+      "cal17_to_eval16": {
+        "stable_flag_rate": 0.134078,
+        "detection_rate": 0.289256
+      }
+    }
+  },
+  "coupling_sweep": [
+    {
+      "text_coupling": 0.5,
+      "gold_within_person_r": 0.444904,
+      "gold_detection_rate": 0.208,
+      "gold_stable_flag_rate": 0.102857,
+      "shipped_within_person_r": 0.437906,
+      "shipped_detection_rate": 0.168,
+      "shipped_stable_flag_rate": 0.051429
+    },
+    {
+      "text_coupling": 1.0,
+      "gold_within_person_r": 0.639094,
+      "gold_detection_rate": 0.248,
+      "gold_stable_flag_rate": 0.091429,
+      "shipped_within_person_r": 0.630857,
+      "shipped_detection_rate": 0.224,
+      "shipped_stable_flag_rate": 0.08
+    },
+    {
+      "text_coupling": 2.0,
+      "gold_within_person_r": 0.746427,
+      "gold_detection_rate": 0.24,
+      "gold_stable_flag_rate": 0.085714,
+      "shipped_within_person_r": 0.739488,
+      "shipped_detection_rate": 0.232,
+      "shipped_stable_flag_rate": 0.085714
+    },
+    {
+      "text_coupling": 4.0,
+      "gold_within_person_r": 0.76506,
+      "gold_detection_rate": 0.24,
+      "gold_stable_flag_rate": 0.051429,
+      "shipped_within_person_r": 0.759583,
+      "shipped_detection_rate": 0.24,
+      "shipped_stable_flag_rate": 0.051429
+    }
+  ],
+  "bad_weeks": {
+    "n_flagged": 14,
+    "share_after_bad_week": 0.142857,
+    "base_rate_near_bad_week": 0.112286
+  },
+  "rules": [
+    {
+      "rule": "cusum",
+      "n_drift": 125,
+      "n_stable": 175,
+      "n_detected": 28,
+      "detection_rate": 0.224,
+      "n_stable_flagged": 14,
+      "stable_flag_rate": 0.08,
+      "early_flag_rate": 0.008,
+      "late_flag_rate": 0.096,
+      "median_latency": 40.0,
+      "latency_p25": 27.75,
+      "latency_p75": 54.5,
+      "in_study_precision": 0.509091,
+      "threshold": 16.785893,
+      "cal_detection_rate": 0.272727,
+      "cal_stable_flag_rate": 0.094972,
+      "stable_flags_from_lowest_mood_quartile": 0.142857,
+      "typical_mood_auc_for_stable_flag": 0.390861,
+      "detection_cheerful_half": 0.322581,
+      "detection_gloomy_half": 0.126984,
+      "stable_flags_after_bad_week": 0.142857,
+      "bad_week_base_rate": 0.112286
+    },
+    {
+      "rule": "personal_rolling",
+      "n_drift": 125,
+      "n_stable": 175,
+      "n_detected": 20,
+      "detection_rate": 0.16,
+      "n_stable_flagged": 11,
+      "stable_flag_rate": 0.062857,
+      "early_flag_rate": 0.008,
+      "late_flag_rate": 0.016,
+      "median_latency": 34.0,
+      "latency_p25": 21.25,
+      "latency_p75": 53.25,
+      "in_study_precision": 0.588235,
+      "threshold": 1.674907,
+      "cal_detection_rate": 0.14876,
+      "cal_stable_flag_rate": 0.094972,
+      "stable_flags_from_lowest_mood_quartile": 0.0,
+      "typical_mood_auc_for_stable_flag": 0.107539,
+      "detection_cheerful_half": 0.274194,
+      "detection_gloomy_half": 0.047619,
+      "stable_flags_after_bad_week": 0.363636,
+      "bad_week_base_rate": 0.112286
+    },
+    {
+      "rule": "population_rolling",
+      "n_drift": 125,
+      "n_stable": 175,
+      "n_detected": 29,
+      "detection_rate": 0.232,
+      "n_stable_flagged": 16,
+      "stable_flag_rate": 0.091429,
+      "early_flag_rate": 0.08,
+      "late_flag_rate": 0.104,
+      "median_latency": 42.0,
+      "latency_p25": 30.0,
+      "latency_p75": 54.0,
+      "in_study_precision": 0.426471,
+      "threshold": 0.936069,
+      "cal_detection_rate": 0.280992,
+      "cal_stable_flag_rate": 0.094972,
+      "stable_flags_from_lowest_mood_quartile": 0.9375,
+      "typical_mood_auc_for_stable_flag": 0.922563,
+      "detection_cheerful_half": 0.096774,
+      "detection_gloomy_half": 0.365079,
+      "stable_flags_after_bad_week": 0.5,
+      "bad_week_base_rate": 0.112286
+    }
+  ],
+  "silence": {
+    "mean_dev_all_days_after_full_decline": -1.097761,
+    "mean_dev_written_days_after_full_decline": -0.846709,
+    "written_share_after_full_decline": 0.330508,
+    "written_share_stable_monitoring": 0.535291
+  },
+  "by_adherence": [
+    {
+      "group": "writes rarely (<45%)",
+      "n": 27,
+      "detection_rate": 0.111111,
+      "median_latency": 42.0
+    },
+    {
+      "group": "sometimes (45-65%)",
+      "n": 56,
+      "detection_rate": 0.089286,
+      "median_latency": 40.0
+    },
+    {
+      "group": "most days (>65%)",
+      "n": 42,
+      "detection_rate": 0.47619,
+      "median_latency": 39.0
+    }
+  ],
+  "by_depth": [
+    {
+      "group": "0.6-0.8",
+      "n": 28,
+      "detection_rate": 0.107143,
+      "median_latency": 42.0
+    },
+    {
+      "group": "0.8-1.0",
+      "n": 30,
+      "detection_rate": 0.166667,
+      "median_latency": 40.0
+    },
+    {
+      "group": "1.0-1.2",
+      "n": 31,
+      "detection_rate": 0.322581,
+      "median_latency": 43.5
+    },
+    {
+      "group": "1.2-1.4",
+      "n": 36,
+      "detection_rate": 0.277778,
+      "median_latency": 32.0
+    }
+  ],
+  "by_ramp": [
+    {
+      "group": "2-3 weeks",
+      "n": 36,
+      "detection_rate": 0.277778,
+      "median_latency": 33.5
+    },
+    {
+      "group": "3-4.5 weeks",
+      "n": 45,
+      "detection_rate": 0.2,
+      "median_latency": 40.0
+    },
+    {
+      "group": "4.5-6 weeks",
+      "n": 44,
+      "detection_rate": 0.204545,
+      "median_latency": 56.0
+    }
+  ],
+  "silence_sweep": [
+    {
+      "setting": "as shipped: write less when low (0.8)",
+      "mood_dropout": 0.8,
+      "written_share_after_full_decline": 0.330508,
+      "detection_rate": 0.224,
+      "median_latency": 40.0,
+      "stable_flag_rate": 0.08,
+      "entry_count_auc_for_decline": 0.624023
+    },
+    {
+      "setting": "writing independent of mood (0.0)",
+      "mood_dropout": 0.0,
+      "written_share_after_full_decline": 0.495547,
+      "detection_rate": 0.376,
+      "median_latency": 44.0,
+      "stable_flag_rate": 0.108571,
+      "entry_count_auc_for_decline": 0.539223
+    },
+    {
+      "setting": "strongly withdraw when low (1.6)",
+      "mood_dropout": 1.6,
+      "written_share_after_full_decline": 0.225079,
+      "detection_rate": 0.136,
+      "median_latency": 33.0,
+      "stable_flag_rate": 0.125714,
+      "entry_count_auc_for_decline": 0.700046
+    },
+    {
+      "setting": "write MORE when low (-0.8)",
+      "mood_dropout": -0.8,
+      "written_share_after_full_decline": 0.669492,
+      "detection_rate": 0.384,
+      "median_latency": 49.5,
+      "stable_flag_rate": 0.068571,
+      "entry_count_auc_for_decline": 0.439611
+    }
+  ],
+  "transport": [
+    {
+      "arm": "lexicon",
+      "rule": "cusum",
+      "detection_tweets": 0.12,
+      "detection_reddit": 0.112,
+      "stable_flag_tweets": 0.108571,
+      "stable_flag_reddit": 0.045714,
+      "mean_valence_tweets": -0.089764,
+      "mean_valence_reddit": -0.044263
+    },
+    {
+      "arm": "lexicon",
+      "rule": "population_rolling",
+      "detection_tweets": 0.088,
+      "detection_reddit": 0.048,
+      "stable_flag_tweets": 0.085714,
+      "stable_flag_reddit": 0.011429,
+      "mean_valence_tweets": -0.089764,
+      "mean_valence_reddit": -0.044263
+    },
+    {
+      "arm": "tfidf_lr",
+      "rule": "cusum",
+      "detection_tweets": 0.2,
+      "detection_reddit": 0.064,
+      "stable_flag_tweets": 0.091429,
+      "stable_flag_reddit": 0.022857,
+      "mean_valence_tweets": -0.012075,
+      "mean_valence_reddit": -0.082912
+    },
+    {
+      "arm": "tfidf_lr",
+      "rule": "population_rolling",
+      "detection_tweets": 0.216,
+      "detection_reddit": 0.0,
+      "stable_flag_tweets": 0.091429,
+      "stable_flag_reddit": 0.0,
+      "mean_valence_tweets": -0.012075,
+      "mean_valence_reddit": -0.082912
+    },
+    {
+      "arm": "embed_lr",
+      "rule": "cusum",
+      "detection_tweets": 0.184,
+      "detection_reddit": 0.128,
+      "stable_flag_tweets": 0.045714,
+      "stable_flag_reddit": 0.045714,
+      "mean_valence_tweets": -0.054892,
+      "mean_valence_reddit": -0.070338
+    },
+    {
+      "arm": "embed_lr",
+      "rule": "population_rolling",
+      "detection_tweets": 0.136,
+      "detection_reddit": 0.024,
+      "stable_flag_tweets": 0.034286,
+      "stable_flag_reddit": 0.017143,
+      "mean_valence_tweets": -0.054892,
+      "mean_valence_reddit": -0.070338
+    },
+    {
+      "arm": "minilm_ft",
+      "rule": "cusum",
+      "detection_tweets": 0.224,
+      "detection_reddit": 0.104,
+      "stable_flag_tweets": 0.08,
+      "stable_flag_reddit": 0.068571,
+      "mean_valence_tweets": -0.02149,
+      "mean_valence_reddit": 0.004989
+    },
+    {
+      "arm": "minilm_ft",
+      "rule": "population_rolling",
+      "detection_tweets": 0.232,
+      "detection_reddit": 0.008,
+      "stable_flag_tweets": 0.091429,
+      "stable_flag_reddit": 0.005714,
+      "mean_valence_tweets": -0.02149,
+      "mean_valence_reddit": 0.004989
+    },
+    {
+      "arm": "gold_text",
+      "rule": "cusum",
+      "detection_tweets": 0.248,
+      "detection_reddit": 0.248,
+      "stable_flag_tweets": 0.091429,
+      "stable_flag_reddit": 0.091429,
+      "mean_valence_tweets": -0.019251,
+      "mean_valence_reddit": -0.019251
+    },
+    {
+      "arm": "gold_text",
+      "rule": "population_rolling",
+      "detection_tweets": 0.224,
+      "detection_reddit": 0.224,
+      "stable_flag_tweets": 0.091429,
+      "stable_flag_reddit": 0.091429,
+      "mean_valence_tweets": -0.019251,
+      "mean_valence_reddit": -0.019251
+    }
+  ],
+  "transport_valence": {
+    "lexicon": {
+      "evaluation": {
+        "class_mean": {
+          "sadness": -0.317428,
+          "joy": 0.136451,
+          "love": 0.296998,
+          "anger": -0.388561,
+          "fear": -0.402659,
+          "surprise": 0.063123
+        },
+        "sd": 0.569525,
+        "separation": 0.586274
+      },
+      "transport": {
+        "class_mean": {
+          "sadness": -0.200807,
+          "joy": 0.113358,
+          "love": 0.377996,
+          "anger": -0.147723,
+          "fear": -0.419572,
+          "surprise": -0.101852
+        },
+        "sd": 0.479308,
+        "separation": 0.501711
+      }
+    },
+    "tfidf_lr": {
+      "evaluation": {
+        "class_mean": {
+          "sadness": -0.876371,
+          "joy": 0.880727,
+          "love": 0.804481,
+          "anger": -0.837278,
+          "fear": -0.830305,
+          "surprise": -0.05292
+        },
+        "sd": 0.892802,
+        "separation": 1.690589
+      },
+      "transport": {
+        "class_mean": {
+          "sadness": -0.404612,
+          "joy": 0.238937,
+          "love": 0.145512,
+          "anger": -0.1972,
+          "fear": -0.470364,
+          "surprise": -0.096737
+        },
+        "sd": 0.615089,
+        "separation": 0.549617
+      }
+    },
+    "embed_lr": {
+      "evaluation": {
+        "class_mean": {
+          "sadness": -0.609634,
+          "joy": 0.552934,
+          "love": 0.517698,
+          "anger": -0.632601,
+          "fear": -0.653298,
+          "surprise": -0.114868
+        },
+        "sd": 0.744521,
+        "separation": 1.16716
+      },
+      "transport": {
+        "class_mean": {
+          "sadness": -0.374308,
+          "joy": 0.305837,
+          "love": 0.257266,
+          "anger": -0.306923,
+          "fear": -0.692969,
+          "surprise": -0.054403
+        },
+        "sd": 0.665543,
+        "separation": 0.739618
+      }
+    },
+    "minilm_ft": {
+      "evaluation": {
+        "class_mean": {
+          "sadness": -0.978574,
+          "joy": 0.972128,
+          "love": 0.962126,
+          "anger": -0.964939,
+          "fear": -0.940973,
+          "surprise": -0.107757
+        },
+        "sd": 0.96418,
+        "separation": 1.928622
+      },
+      "transport": {
+        "class_mean": {
+          "sadness": -0.440951,
+          "joy": 0.492292,
+          "love": 0.407413,
+          "anger": -0.284442,
+          "fear": -0.673602,
+          "surprise": -0.001597
+        },
+        "sd": 0.763128,
+        "separation": 0.916184
+      }
+    },
+    "gold_text": {
+      "evaluation": {
+        "class_mean": {
+          "sadness": -1.0,
+          "joy": 1.0,
+          "love": 1.0,
+          "anger": -1.0,
+          "fear": -1.0,
+          "surprise": 0.0
+        },
+        "sd": 0.976703,
+        "separation": 2.0
+      },
+      "transport": {
+        "class_mean": {
+          "sadness": -1.0,
+          "joy": 1.0,
+          "love": 1.0,
+          "anger": -1.0,
+          "fear": -1.0,
+          "surprise": 0.0
+        },
+        "sd": 0.877179,
+        "separation": 2.0
+      }
+    }
+  },
+  "budget_sweep": [
+    {
+      "budget": 0.02,
+      "n_drift": 125,
+      "n_stable": 175,
+      "n_detected": 6,
+      "detection_rate": 0.048,
+      "n_stable_flagged": 1,
+      "stable_flag_rate": 0.005714,
+      "early_flag_rate": 0.0,
+      "late_flag_rate": 0.072,
+      "median_latency": 57.0,
+      "latency_p25": 51.75,
+      "latency_p75": 61.5,
+      "in_study_precision": 0.375,
+      "threshold": 34.428334,
+      "cal_detection_rate": 0.082645,
+      "cal_stable_flag_rate": 0.01676,
+      "ppv_at_real_prevalence": 0.482759
+    },
+    {
+      "budget": 0.05,
+      "n_drift": 125,
+      "n_stable": 175,
+      "n_detected": 11,
+      "detection_rate": 0.088,
+      "n_stable_flagged": 4,
+      "stable_flag_rate": 0.022857,
+      "early_flag_rate": 0.0,
+      "late_flag_rate": 0.056,
+      "median_latency": 48.0,
+      "latency_p25": 43.0,
+      "latency_p75": 53.5,
+      "in_study_precision": 0.5,
+      "threshold": 28.030152,
+      "cal_detection_rate": 0.123967,
+      "cal_stable_flag_rate": 0.044693,
+      "ppv_at_real_prevalence": 0.299611
+    },
+    {
+      "budget": 0.1,
+      "n_drift": 125,
+      "n_stable": 175,
+      "n_detected": 28,
+      "detection_rate": 0.224,
+      "n_stable_flagged": 14,
+      "stable_flag_rate": 0.08,
+      "early_flag_rate": 0.008,
+      "late_flag_rate": 0.096,
+      "median_latency": 40.0,
+      "latency_p25": 27.75,
+      "latency_p75": 54.5,
+      "in_study_precision": 0.509091,
+      "threshold": 16.785893,
+      "cal_detection_rate": 0.272727,
+      "cal_stable_flag_rate": 0.094972,
+      "ppv_at_real_prevalence": 0.237288
+    },
+    {
+      "budget": 0.2,
+      "n_drift": 125,
+      "n_stable": 175,
+      "n_detected": 53,
+      "detection_rate": 0.424,
+      "n_stable_flagged": 38,
+      "stable_flag_rate": 0.217143,
+      "early_flag_rate": 0.056,
+      "late_flag_rate": 0.072,
+      "median_latency": 38.0,
+      "latency_p25": 25.0,
+      "latency_p75": 53.0,
+      "in_study_precision": 0.495327,
+      "threshold": 10.150942,
+      "cal_detection_rate": 0.446281,
+      "cal_stable_flag_rate": 0.195531,
+      "ppv_at_real_prevalence": 0.17828
+    },
+    {
+      "budget": 0.3,
+      "n_drift": 125,
+      "n_stable": 175,
+      "n_detected": 64,
+      "detection_rate": 0.512,
+      "n_stable_flagged": 52,
+      "stable_flag_rate": 0.297143,
+      "early_flag_rate": 0.136,
+      "late_flag_rate": 0.056,
+      "median_latency": 37.5,
+      "latency_p25": 23.0,
+      "latency_p75": 46.25,
+      "in_study_precision": 0.457143,
+      "threshold": 7.370833,
+      "cal_detection_rate": 0.479339,
+      "cal_stable_flag_rate": 0.296089,
+      "ppv_at_real_prevalence": 0.160689
+    }
+  ],
+  "pool_replicates": {
+    "rows": [
+      {
+        "replicate": 0,
+        "half": "A",
+        "detection_rate": 0.256,
+        "stable_flag_rate": 0.08,
+        "median_latency": 40.5
+      },
+      {
+        "replicate": 0,
+        "half": "B",
+        "detection_rate": 0.232,
+        "stable_flag_rate": 0.097143,
+        "median_latency": 40.0
+      },
+      {
+        "replicate": 1,
+        "half": "A",
+        "detection_rate": 0.256,
+        "stable_flag_rate": 0.085714,
+        "median_latency": 41.0
+      },
+      {
+        "replicate": 1,
+        "half": "B",
+        "detection_rate": 0.264,
+        "stable_flag_rate": 0.102857,
+        "median_latency": 38.0
+      },
+      {
+        "replicate": 2,
+        "half": "A",
+        "detection_rate": 0.224,
+        "stable_flag_rate": 0.08,
+        "median_latency": 38.0
+      },
+      {
+        "replicate": 2,
+        "half": "B",
+        "detection_rate": 0.224,
+        "stable_flag_rate": 0.068571,
+        "median_latency": 40.5
+      },
+      {
+        "replicate": 3,
+        "half": "A",
+        "detection_rate": 0.272,
+        "stable_flag_rate": 0.074286,
+        "median_latency": 42.5
+      },
+      {
+        "replicate": 3,
+        "half": "B",
+        "detection_rate": 0.24,
+        "stable_flag_rate": 0.091429,
+        "median_latency": 37.5
+      }
+    ],
+    "detection_min": 0.224,
+    "detection_max": 0.272,
+    "stable_flag_min": 0.068571,
+    "stable_flag_max": 0.102857
+  },
+  "negative_controls": {
+    "shuffled_days": {
+      "n_drift": 125,
+      "n_stable": 175,
+      "n_detected": 20,
+      "detection_rate": 0.16,
+      "n_stable_flagged": 17,
+      "stable_flag_rate": 0.097143,
+      "early_flag_rate": 0.04,
+      "late_flag_rate": 0.048,
+      "median_latency": 29.0,
+      "latency_p25": 18.75,
+      "latency_p75": 43.0,
+      "in_study_precision": 0.416667,
+      "threshold": 16.785893,
+      "cal_detection_rate": 0.272727,
+      "cal_stable_flag_rate": 0.094972
+    },
+    "random_scorer": {
+      "label": "random scorer (negative control)",
+      "sentence_accuracy": 0.162393,
+      "sentence_valence_auc": 0.490178,
+      "n_drift": 125,
+      "n_stable": 175,
+      "n_detected": 6,
+      "detection_rate": 0.048,
+      "n_stable_flagged": 24,
+      "stable_flag_rate": 0.137143,
+      "early_flag_rate": 0.072,
+      "late_flag_rate": 0.0,
+      "median_latency": 27.0,
+      "latency_p25": 8.0,
+      "latency_p75": 52.75,
+      "in_study_precision": 0.153846,
+      "threshold": 10.86188,
+      "cal_detection_rate": 0.049587,
+      "cal_stable_flag_rate": 0.094972
+    }
+  },
+  "runtime_seconds": 49.2,
+  "generated": "2026-09-13 08:18"
+}

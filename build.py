@@ -263,6 +263,22 @@ def main(quick=False, retrain_ft=False):
                                              key="stable_flag_rate")
     head["ppv_at_real_prevalence"] = EV.ppv_at_prevalence(
         head["detection_rate"], head["stable_flag_rate"], REAL_PREVALENCE)
+    # A five-week baseline is itself an estimate. For people who never declined, what
+    # predicts being flagged? Deliberately NOT "baseline text minus later text": the
+    # CUSUM is a running sum of exactly that gap, so its AUC is high by definition
+    # (it came out 0.97 and meant nothing). Use quantities the tracker never sees.
+    B0 = cfg_ev.baseline_days
+    _, _, n_base, _ = T.personal_baseline(Me[shipped], B0)
+    lat = T.latent_matrix(coh_ev[1], len(ppl_ev), cfg_ev.days)
+    true_gap = lat[:, :B0].mean(1) - lat[:, B0:].mean(1)   # > 0: baseline weeks genuinely happier
+    st_ = ppl_ev.drift.to_numpy() == 0
+    flagged_st = (ff_ship >= B0)[st_]
+    head["baseline_error"] = dict(
+        auc_true_mood_gap_for_stable_flag=EV.roc_auc(flagged_st.astype(int), true_gap[st_]),
+        auc_fewer_baseline_entries_for_stable_flag=EV.roc_auc(flagged_st.astype(int), -n_base[st_]),
+        mean_true_gap_flagged=float(np.mean(true_gap[st_][flagged_st])) if flagged_st.any() else None,
+        mean_true_gap_not_flagged=float(np.mean(true_gap[st_][~flagged_st])),
+        median_baseline_entries=float(np.median(n_base)))
     L_ev = T.latent_matrix(coh_ev[1], len(ppl_ev), cfg_ev.days)
     head["within_person_r_shipped"] = EV.within_person_r(Me[shipped], L_ev)
     head["within_person_r_gold"] = EV.within_person_r(Me["gold_text"], L_ev)
@@ -374,6 +390,18 @@ def main(quick=False, retrain_ft=False):
                               mean_valence_tweets=float(np.nanmean(Me[arm][:, :cfg_ev.baseline_days])),
                               mean_valence_reddit=float(np.nanmean(Mt[arm][:, :cfg_ev.baseline_days]))))
     m["transport"] = pd.DataFrame(trows)
+    # why rules break under the shift: how far a sentence of each emotion moves the score
+    tv = {}
+    for arm in arms + ["gold_text"]:
+        tv[arm] = {}
+        for pool in ("evaluation", "transport"):
+            v, lab = DATA.valence(probs[pool][arm]), labels[pool]
+            cm = {c: float(v[lab == i].mean()) for i, c in enumerate(DATA.CLASSES)}
+            tv[arm][pool] = dict(
+                class_mean=cm, sd=float(v.std()),
+                separation=float(np.mean([cm[c] for c in DATA.POSITIVE])
+                                 - np.mean([cm[c] for c in DATA.NEGATIVE])))
+    m["transport_valence"] = tv
 
     # ------------------------------------------------------------------ 10
     print("[10/11] budget sweep, pool replicates, negative controls ...")
